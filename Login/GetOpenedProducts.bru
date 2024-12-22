@@ -36,4 +36,8 @@ tests {
   
   bru.setVar("rewardSavingsInvProdId", rewardSavings.Id);
   console.info(`Reward Savings investor product id is: ${bru.getVar("rewardSavingsInvProdId")}`);
+  
+  // To remove all runtime variables
+  bru.deleteVar("BearerToken");
+  bru.deleteVar("rewardSavingsInvProdId");
 }
