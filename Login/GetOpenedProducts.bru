@@ -1,0 +1,39 @@
+meta {
+  name: GetOpenedProducts
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{URL}}/investorproducts
+  body: none
+  auth: bearer
+}
+
+headers {
+  appid: 3a97b932a9d449c981b595
+  apiversion: 3.0.0
+  appversion: {{appversion}}
+}
+
+auth:bearer {
+  token: {{BearerToken}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  const openedProducts = res.getBody().ProductResponses;
+  
+  const rewardSavings = openedProducts.find(product => product.Product.Name === "Reward Savings");
+  console.log(rewardSavings);
+  
+  test("Verify RewardSavings plan value is zero", function () {
+    expect(rewardSavings.PlanValue).equals(0);
+  })
+  
+  bru.setVar("rewardSavingsInvProdId", rewardSavings.Id);
+  console.info(`Reward Savings investor product id is: ${bru.getVar("rewardSavingsInvProdId")}`);
+}

@@ -1,0 +1,154 @@
+{
+  "name": "DemoBrunoCollection",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "Login",
+      "items": [
+        {
+          "type": "http",
+          "name": "AppLoginViaEmail",
+          "seq": 1,
+          "request": {
+            "url": "{{URL}}/users/v2/login",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "appid",
+                "value": "3a97b932a9d449c981b595",
+                "enabled": true
+              },
+              {
+                "name": "apiversion",
+                "value": "3.0.0",
+                "enabled": true
+              },
+              {
+                "name": "appversion",
+                "value": "{{appversion}}",
+                "enabled": true
+              }
+            ],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"Email\": \"test+r1@moneyboxapp.com\",\n  \"Password\": \"P455word12\",\n  \"Idfa\": \"0364caf7-bf70-4e51-b24c-8bd162e05589\",\n  \"DeviceIdentifier\": \"SM-G955F\",\n  \"UniqueDeviceIdentifier\": \"24fa9c58482f4e88\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [
+              {
+                "name": "res.status",
+                "value": "eq 200",
+                "enabled": true,
+                "uid": "mA2DnXK5znDI1rGXcGYde"
+              },
+              {
+                "name": "res.body.User.MoneyboxRegistrationStatus",
+                "value": "eq IsComplete",
+                "enabled": true,
+                "uid": "NxmoVBHhz003aqj6Kdcx2"
+              }
+            ],
+            "tests": "const responseBody = res.getBody();\n\ntest(\"Verify user is Personal Investor\", function () {\n  expect(responseBody.User.UserType).equals(\"Investor\");\n  expect(responseBody.Session.Profiles).to.be.an('array').lengthOf(1);\n  expect(responseBody.Session.Profiles[0].ProfileType).equals(\"Personal\");\n})\n\nbru.setVar(\"BearerToken\", responseBody.Session.BearerToken);",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "GetOpenedProducts",
+          "seq": 2,
+          "request": {
+            "url": "{{URL}}/investorproducts",
+            "method": "GET",
+            "headers": [
+              {
+                "name": "appid",
+                "value": "3a97b932a9d449c981b595",
+                "enabled": true
+              },
+              {
+                "name": "apiversion",
+                "value": "3.0.0",
+                "enabled": true
+              },
+              {
+                "name": "appversion",
+                "value": "{{appversion}}",
+                "enabled": true
+              }
+            ],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [
+              {
+                "name": "res.status",
+                "value": "eq 200",
+                "enabled": true,
+                "uid": "nDi7RiC8GJWWUJZLpCcar"
+              }
+            ],
+            "tests": "const openedProducts = res.getBody().ProductResponses;\n\nconst rewardSavings = openedProducts.find(product => product.Product.Name === \"Reward Savings\");\nconsole.log(rewardSavings);\n\ntest(\"Verify RewardSavings plan value is zero\", function () {\n  expect(rewardSavings.PlanValue).equals(0);\n})\n\nbru.setVar(\"rewardSavingsInvProdId\", rewardSavings.Id);\nconsole.info(`Reward Savings investor product id is: ${bru.getVar(\"rewardSavingsInvProdId\")}`);",
+            "docs": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{BearerToken}}"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "activeEnvironmentUid": "Kg3xjBj2zUfpKpBQcoXCU",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "URL",
+          "value": "https://api-test02.moneyboxapp.com",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "appversion",
+          "value": "11.1.0",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "TEST02"
+    }
+  ],
+  "root": {
+    "request": {
+      "auth": {
+        "mode": "none"
+      }
+    }
+  },
+  "brunoConfig": {
+    "version": "1",
+    "name": "DemoBrunoCollection",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}

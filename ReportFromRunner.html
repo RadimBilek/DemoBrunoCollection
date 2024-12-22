@@ -1,0 +1,3714 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Would use latest version, you'd better specify a version -->
+    <script src="https://unpkg.com/naive-ui"></script>
+
+    <title>Bruno</title>
+    <style>
+      .error > .status {
+        color: red;
+      }
+      .success > .status {
+        color: green;
+      }
+
+      .n-collapse-item.success > .n-collapse-item__header {
+        background-color: rgba(237, 247, 242, 1);
+      }
+      .n-collapse-item.error > .n-collapse-item__header {
+        background-color: rgba(251, 238, 241, 1);
+      }
+
+      .min-width-150 {
+        min-width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <n-config-provider :theme="theme">
+        <n-layout embedded position="absolute" content-style="padding: 24px;">
+          <n-card>
+            <n-flex>
+              <n-page-header title="Bruno run dashboard">
+                <template #avatar>
+                  <n-avatar size="large" style="background-color: transparent">
+                    <svg id="emoji" width="34" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                      <g id="color">
+                        <path
+                          fill="#F4AA41"
+                          stroke="none"
+                          d="M23.5,14.5855l-4.5,1.75l-7.25,8.5l-4.5,10.75l2,5.25c1.2554,3.7911,3.5231,7.1832,7.25,10l2.5-3.3333 c0,0,3.8218,7.7098,10.7384,8.9598c0,0,10.2616,1.936,15.5949-0.8765c3.4203-1.8037,4.4167-4.4167,4.4167-4.4167l3.4167-3.4167 l1.5833,2.3333l2.0833-0.0833l5.4167-7.25L64,37.3355l-0.1667-4.5l-2.3333-5.5l-4.8333-7.4167c0,0-2.6667-4.9167-8.1667-3.9167 c0,0-6.5-4.8333-11.8333-4.0833S32.0833,10.6688,23.5,14.5855z"
+                        ></path>
+                        <polygon
+                          fill="#EA5A47"
+                          stroke="none"
+                          points="36,47.2521 32.9167,49.6688 30.4167,49.6688 30.3333,53.5021 31.0833,57.0021 32.1667,58.9188 35,60.4188 39.5833,59.8355 41.1667,58.0855 42.1667,53.8355 41.9167,49.8355 39.9167,50.0855"
+                        ></polygon>
+                        <polygon
+                          fill="#3F3F3F"
+                          stroke="none"
+                          points="32.5,36.9188 30.9167,40.6688 33.0833,41.9188 34.3333,42.4188 38.6667,42.5855 41.5833,40.3355 39.8333,37.0855"
+                        ></polygon>
+                      </g>
+                      <g id="hair"></g>
+                      <g id="skin"></g>
+                      <g id="skin-shadow"></g>
+                      <g id="line">
+                        <path
+                          fill="#000000"
+                          stroke="none"
+                          d="M29.5059,30.1088c0,0-1.8051,1.2424-2.7484,0.6679c-0.9434-0.5745-1.2424-1.8051-0.6679-2.7484 s1.805-1.2424,2.7484-0.6679S29.5059,30.1088,29.5059,30.1088z"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M33.1089,37.006h6.1457c0.4011,0,0.7634,0.2397,0.9203,0.6089l1.1579,2.7245l-2.1792,1.1456 c-0.6156,0.3236-1.3654-0.0645-1.4567-0.754"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M34.7606,40.763c-0.1132,0.6268-0.7757,0.9895-1.3647,0.7471l-2.3132-0.952l1.0899-2.9035 c0.1465-0.3901,0.5195-0.6486,0.9362-0.6486"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M30.4364,50.0268c0,0-0.7187,8.7934,3.0072,9.9375c2.6459,0.8125,5.1497,0.5324,6.0625-0.25 c0.875-0.75,2.6323-4.4741,1.8267-9.6875"
+                        ></path>
+                        <path
+                          fill="#000000"
+                          stroke="none"
+                          d="M44.2636,30.1088c0,0,1.805,1.2424,2.7484,0.6679c0.9434-0.5745,1.2424-1.8051,0.6679-2.7484 c-0.5745-0.9434-1.805-1.2424-2.7484-0.6679C43.9881,27.9349,44.2636,30.1088,44.2636,30.1088z"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M25.6245,42.8393c-0.475,3.6024,2.2343,5.7505,4.2847,6.8414c1.1968,0.6367,2.6508,0.5182,3.7176-0.3181l2.581-2.0233l2.581,2.0233 c1.0669,0.8363,2.5209,0.9548,3.7176,0.3181c2.0504-1.0909,4.7597-3.239,4.2847-6.8414"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M19.9509,28.3572c-2.3166,5.1597-0.5084,13.0249,0.119,15.3759c0.122,0.4571,0.0755,0.9355-0.1271,1.3631l-1.9874,4.1937 c-0.623,1.3146-2.3934,1.5533-3.331,0.4409c-3.1921-3.7871-8.5584-11.3899-6.5486-16.686 c7.0625-18.6104,15.8677-18.1429,15.8677-18.1429c2.8453-1.9336,13.1042-6.9375,24.8125,0.875c0,0,8.6323-1.7175,14.9375,16.9375 c1.8036,5.3362-3.4297,12.8668-6.5506,16.6442c-0.9312,1.127-2.7162,0.8939-3.3423-0.4272l-1.9741-4.1656 c-0.2026-0.4275-0.2491-0.906-0.1271-1.3631c0.6275-2.3509,2.4356-10.2161,0.119-15.3759"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M52.6309,46.4628c0,0-3.0781,6.7216-7.8049,8.2712"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M19.437,46.969c0,0,3.0781,6.0823,7.8049,7.632"
+                        ></path>
+                        <line
+                          x1="36.2078"
+                          x2="36.2078"
+                          y1="47.3393"
+                          y2="44.3093"
+                          fill="none"
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                        ></line>
+                      </g>
+                    </svg>
+                  </n-avatar>
+                </template>
+                <template #extra>
+                  <n-flex justify="end">
+                    <n-switch v-model:value="darkMode" :rail-style="darkModeRailStyle">
+                      <template #checked> Dark </template>
+                      <template #unchecked> Light </template>
+                    </n-switch>
+                  </n-flex>
+                </template>
+              </n-page-header>
+              <n-tabs type="segment" animated>
+                <n-tab-pane name="summary" tab="Summary">
+                  <n-flex justify="center" vertical>
+                    <x-summary v-for="(result, index) in res" :res="result" :key="index"></x-summary>
+                  </n-flex>
+                </n-tab-pane>
+                <n-tab-pane name="Requests" tab="Requests">
+                  <n-flex justify="center" vertical>
+                    <x-requests v-for="(result, index) in res" :res="result" :key="index"></x-requests>
+                  </n-flex>
+                </n-tab-pane>
+              </n-tabs>
+            </n-flex>
+          </n-card>
+        </n-layout>
+      </n-config-provider>
+    </div>
+    <script type="text/x-template" id="summary-component">
+      <n-flex vertical style="margin-bottom: 50px;">
+        <n-card>
+          <template #header>
+            <span style="font-size: 24px;">{{ iterationTitle }}</span>
+          </template>
+          <n-flex justify="center">
+            <n-flex justify="center">
+              <n-alert type="success">
+                <n-statistic
+                  label="Total requests"
+                  :value="summaryTotalRequests"
+                >
+                </n-statistic>
+              </n-alert>
+              <n-alert :type="summaryErrors ? 'error' : 'success'">
+                <n-statistic label="Total errors" :value="summaryErrors">
+                </n-statistic>
+              </n-alert>
+              <n-alert type="success">
+                <n-statistic
+                  label="Total Controls"
+                  :value="summaryTotalControls"
+                >
+                </n-statistic>
+              </n-alert>
+              <n-alert :type="summaryFailedControls ? 'error' : 'success'">
+                <n-statistic
+                  label="Total Failed Controls"
+                  :value="summaryFailedControls"
+                >
+                </n-statistic>
+              </n-alert>
+              <n-statistic
+              label="Total run duration"
+              :value="Math.round(totalRunDuration*1000)/1000"
+            >
+              <template #suffix>s</template>
+            </n-statistic>
+            </n-flex>
+          </n-flex>
+        </n-card>
+        <n-data-table :columns="summaryColumns" :data="summaryData" />
+      </n-flex>
+    </script>
+    <script type="text/x-template" id="requests-component">
+      <n-card>
+        <template #header>
+          <span style="font-size: 24px;">{{ iterationTitle }}</span>
+        </template>
+        <n-flex vertical style="margin-bottom: 50px">
+          <n-switch
+            v-model:value="onlyFailed"
+            :rail-style="railStyle"
+          >
+            <template #checked> Only Failed </template>
+            <template #unchecked> Only Passed </template>
+          </n-switch>
+
+          <n-collapse>
+            <x-results-group v-for="(results, group) in groupedResults" :results="results" :group="group" :key="group + '-' + results.length"></x-results-group>
+          </n-collapse>
+        </n-flex>
+      </n-card>
+    </script>
+    <script type="text/x-template" id="results-group-component">
+      <n-collapse-item
+        :name="group"
+        arrow-placement="right"
+      >
+        <template #header>
+          <n-alert
+            :type="hasError || hasFailure ? 'error' : 'success'"
+            :bordered="false"
+          >
+            <template #header>
+              {{group}} - {{totalPassed}} / {{total}} Passed {{ hasError? " - Error" : "" }}
+            </template>
+          </n-alert>
+        </template>
+        <n-collapse>
+          <x-result v-for="(result, index) in results" :result="result" :group="group" :key="index"></x-result>
+        </n-collapse>
+      </n-collapse-item>
+    </script>
+    <script type="text/x-template" id="result-component">
+      <n-collapse-item
+        :name="name"
+        arrow-placement="right"
+      >
+        <template #header>
+          <n-alert
+            :type="hasError || hasFailure ? 'error' : 'success'"
+            :bordered="false"
+          >
+            <template #header>
+              {{suitename}} - {{totalPassed}} / {{total}} Passed {{hasError ? " - Error" : "" }}
+            </template>
+          </n-alert>
+        </template>
+        <n-flex vertical>
+          <n-grid x-gap="12" :cols="2">
+            <n-gi>
+              <n-card title="REQUEST INFORMATION">
+                <n-list>
+                  <n-list-item>
+                    <n-thing
+                      title="File"
+                      :description="result.test.filename"
+                    />
+                  </n-list-item>
+                  <n-list-item>
+                    <n-thing
+                      title="Request Method"
+                      :description="result.request.method"
+                    />
+                  </n-list-item>
+                  <n-list-item>
+                    <n-thing
+                      title="Request URL"
+                      :description="result.request.url"
+                    />
+                  </n-list-item>
+                </n-list>
+              </n-card>
+            </n-gi>
+            <n-gi>
+              <n-card title="RESPONSE INFORMATION">
+                <n-list>
+                  <n-list-item>
+                    <n-thing
+                      title="Response Code"
+                      :description="'' + result.response.status"
+                    />
+                  </n-list-item>
+                  <n-list-item>
+                    <n-thing
+                      title="Response time"
+                      :description="result.response.responseTime + ' ms'"
+                    />
+                  </n-list-item>
+                  <n-list-item>
+                    <n-thing
+                      title="Test duration"
+                      :description="testDuration"
+                    />
+                  </n-list-item>
+                </n-list>
+              </n-card>
+            </n-gi>
+          </n-grid>
+          <n-alert v-if="hasError" title="Error" type="error">
+            {{result.error}}
+          </n-alert>
+          <n-card title="REQUEST HEADERS">
+            <n-data-table
+              :columns="headerColumns"
+              :data="headerDataRequest"
+            />
+          </n-card>
+          <n-card
+            v-if="result.request.data"
+            title="REQUEST BODY"
+          >
+            <pre>{{result.request.data}}</pre>
+          </n-card>
+          <n-card title="RESPONSE HEADERS">
+            <n-data-table
+              :columns="headerColumns"
+              :data="headerDataResponse"
+            />
+          </n-card>
+          <n-card
+            v-if="result.response.data"
+            title="RESPONSE BODY"
+          >
+            <pre>{{result.response.data}}</pre>
+          </n-card>
+          <n-card title="ASSERTIONS INFORMATION">
+            <n-data-table
+              :columns="assertionsColumns"
+              :data="result.assertionResults"
+              :row-class-name="assertionsRowClassName"
+            />
+          </n-card>
+          <n-card title="TESTS INFORMATION">
+            <n-data-table
+              :columns="testsColumns"
+              :data="result.testResults"
+              :row-class-name="testsRowClassName"
+            />
+          </n-card>
+        </n-flex>
+      </n-collapse-item>
+    </script>
+    <script>
+      const { createApp, ref, computed } = Vue;
+
+      const App = {
+        setup() {
+          const res = [
+  {
+    "iterationIndex": 0,
+    "summary": {
+      "totalRequests": 2,
+      "passedRequests": 2,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "totalAssertions": 3,
+      "passedAssertions": 3,
+      "failedAssertions": 0,
+      "totalTests": 2,
+      "passedTests": 2,
+      "failedTests": 0
+    },
+    "results": [
+      {
+        "iterationIndex": 0,
+        "test": {
+          "filename": "AppLoginViaEmail.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "https://api-test02.moneyboxapp.com/users/v2/login",
+          "headers": {
+            "appid": "3a97b932a9d449c981b595",
+            "apiversion": "3.0.0",
+            "appversion": "11.1.0",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"Email\": \"test+r1@moneyboxapp.com\",\n  \"Password\": \"P455word12\",\n  \"Idfa\": \"0364caf7-bf70-4e51-b24c-8bd162e05589\",\n  \"DeviceIdentifier\": \"SM-G955F\",\n  \"UniqueDeviceIdentifier\": \"24fa9c58482f4e88\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "date": "Sun, 22 Dec 2024 17:16:27 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "content-length": "504",
+            "connection": "keep-alive",
+            "cache-control": "no-store, must-revalidate, no-cache, max-age=-1",
+            "pragma": "no-cache",
+            "expires": "Sun, 22 Dec 2024 17:16:26 GMT",
+            "vary": "Accept-Encoding",
+            "access-control-allow-methods": "GET,POST,PUT,DELETE,OPTIONS",
+            "cf-cache-status": "DYNAMIC",
+            "server": "cloudflare",
+            "cf-ray": "8f61c27bfa29b351-PRG",
+            "request-duration": 654
+          },
+          "data": {
+            "User": {
+              "UserId": "4533fa68-26ad-43b8-98d6-525bc5a25f49",
+              "UserType": "Investor",
+              "HasVerifiedEmail": true,
+              "IsPinSet": true,
+              "MoneyboxRegistrationStatus": "IsComplete",
+              "Email": "test+r1@moneyboxapp.com",
+              "RestrictedDevice": false,
+              "EmailTwoFactorEnabled": false,
+              "Cohort": 6
+            },
+            "Session": {
+              "BearerToken": "tCw418evLCQtxznKLtjBMveaulpPVf9YkJ2MA7lqhPQ=",
+              "ExternalSessionId": "10914186-f34a-44b3-8b5a-0a1de683c88a",
+              "SessionExternalId": "10914186-f34a-44b3-8b5a-0a1de683c88a",
+              "ExpiryInSeconds": 0,
+              "Profiles": [
+                {
+                  "UserId": "4533fa68-26ad-43b8-98d6-525bc5a25f49",
+                  "ProfileType": "Personal",
+                  "Name": "Name"
+                }
+              ]
+            },
+            "Incentives": {}
+          },
+          "responseTime": 654
+        },
+        "status": "completed",
+        "error": null,
+        "assertionResults": [
+          {
+            "uid": "7D3l4J-Xo1OUoggQw0AVQ",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "4SE-sklmhFxpxNdmELZ_X",
+            "lhsExpr": "res.body.User.MoneyboxRegistrationStatus",
+            "rhsExpr": "eq IsComplete",
+            "rhsOperand": "IsComplete",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [
+          {
+            "description": "Verify user is Personal Investor",
+            "status": "pass",
+            "uid": "RmgfhSKaeA5UiaJ6ecN7P"
+          }
+        ],
+        "runtime": 0.654,
+        "suitename": "AppLoginViaEmail"
+      },
+      {
+        "iterationIndex": 0,
+        "test": {
+          "filename": "GetOpenedProducts.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "https://api-test02.moneyboxapp.com/investorproducts",
+          "headers": {
+            "appid": "3a97b932a9d449c981b595",
+            "apiversion": "3.0.0",
+            "appversion": "11.1.0",
+            "Authorization": "Bearer tCw418evLCQtxznKLtjBMveaulpPVf9YkJ2MA7lqhPQ="
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "date": "Sun, 22 Dec 2024 17:16:29 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "content-length": "8531",
+            "connection": "keep-alive",
+            "cache-control": "no-store, must-revalidate, no-cache, max-age=-1",
+            "pragma": "no-cache",
+            "expires": "Sun, 22 Dec 2024 17:16:27 GMT",
+            "vary": "Accept-Encoding",
+            "access-control-allow-methods": "GET,POST,PUT,DELETE,OPTIONS",
+            "cf-cache-status": "DYNAMIC",
+            "server": "cloudflare",
+            "cf-ray": "8f61c2811959b351-PRG",
+            "request-duration": 1599
+          },
+          "data": {
+            "MoneyboxEndOfTaxYear": "2025-04-02T12:00:00.000",
+            "TotalPlanValue": 99743.95,
+            "TotalEarnings": 15529.85,
+            "TotalContributionsNet": 84214.1,
+            "TotalMoneybox": 295,
+            "TotalCollection": 295,
+            "CollectionDayMessage": "3 days until collection",
+            "TotalEarningsAsPercentage": 18.44,
+            "ProductResponses": [
+              {
+                "Id": 1778,
+                "AssetBoxGlobalId": "70d28ea0-0bef-45e2-9783-3715f88571a2",
+                "PlanValue": 71953.63,
+                "TotalCollection": 150,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 150,
+                "SubscriptionAmount": 150,
+                "TotalWeeklySubscriptionAmount": 150,
+                "TotalFees": 863.6,
+                "IsSelected": false,
+                "IsFavourite": true,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 1,
+                  "GlobalId": "d140d99d-b759-46cb-84af-9fbd98dc517f",
+                  "Name": "ISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/IsaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/IsaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Isa",
+                  "FriendlyName": "Stocks & Shares ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 54597.85,
+                  "EarningsNet": 17354.78,
+                  "EarningsAsPercentage": 31.79
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 1
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-05-10T11:13:48.080",
+                "XSellToDoKey": "IsaXSell"
+              },
+              {
+                "Id": 2889,
+                "AssetBoxGlobalId": "84569ac0-d5e5-446d-8b46-66c63a196b5e",
+                "PlanValue": 6508.86,
+                "TotalCollection": 10,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 10,
+                "SubscriptionAmount": 10,
+                "TotalWeeklySubscriptionAmount": 10,
+                "TotalFees": 64.27,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 2,
+                  "GlobalId": "14bffb93-26e6-4910-aac7-c7d6d29e9df9",
+                  "Name": "GIA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/GiaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/GiaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Gia",
+                  "FriendlyName": "General Investment Account",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": true,
+                  "ProductHexCode": "#546270",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentGIAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 4610,
+                  "EarningsNet": 1898.86,
+                  "EarningsAsPercentage": 41.19
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 2
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-07-05T15:30:55.197",
+                "XSellToDoKey": "GiaXSell"
+              },
+              {
+                "Id": 1779,
+                "AssetBoxGlobalId": "55f35b24-4617-45d9-ae70-9fef7cf4acdf",
+                "PlanValue": 216.39,
+                "TotalCollection": 40,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 40,
+                "SubscriptionAmount": 40,
+                "TotalWeeklySubscriptionAmount": 40,
+                "TotalFees": 2.74,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "167aa85d-81e5-400a-8c76-e959f897722d",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Lisa": {
+                    "MaximumBonus": 1000
+                  },
+                  "Id": 4,
+                  "GlobalId": "2d19a88b-5241-40f9-a48b-e057121e3e1f",
+                  "Name": "LISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/LisaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/LisaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Lisa",
+                  "FriendlyName": "Lifetime ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": true,
+                  "ProductHexCode": "#49bfbd",
+                  "AnnualLimit": 4000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentLISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 4676.45,
+                  "EarningsNet": -4460.06,
+                  "EarningsAsPercentage": -95.37
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 3
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-05-10T13:19:38.097",
+                "XSellToDoKey": "LisaXSell"
+              },
+              {
+                "Id": 2847,
+                "AssetBoxGlobalId": "b286d38e-cee6-4f86-8f32-b551a6a20e68",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "1f954b40-4bca-458f-bbb8-6eaa5ea858a7",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 5,
+                  "GlobalId": "f56ad5dd-fedf-4def-b7b1-64569ccb9815",
+                  "Name": "SIPP",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/PensionIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/PensionIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Sipp",
+                  "FriendlyName": "Personal Pension",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#00a8d3",
+                  "AnnualLimit": 144000,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentPensionStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "9a9d7696-4c46-4a8d-9c41-51d7246914b2"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 4
+                  }
+                },
+                "Contributions": {
+                  "IsAvailable": true,
+                  "Status": "Disabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "InProgress",
+                "DateCreated": "2019-07-05T14:07:51.657",
+                "XSellToDoKey": "SippXSell"
+              },
+              {
+                "Id": 108989,
+                "AssetBoxGlobalId": "f6a0a6cc-2330-4bbb-b0c3-0ecd83fb54da",
+                "PlanValue": 1581.03,
+                "TotalCollection": 25,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 25,
+                "SubscriptionAmount": 25,
+                "TotalWeeklySubscriptionAmount": 25,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "9e56a10f-6c10-4dce-b561-12d4f8f6066e",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 20,
+                  "GlobalId": "8fb1be29-12e8-4e14-ad17-1409e878b12c",
+                  "Name": "Cash ISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/cashISA.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/cashISA.png",
+                  "CategoryType": "Cash",
+                  "Type": "CashIsa",
+                  "FriendlyName": "Cash ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "4.43% AER",
+                  "InterestRateAmount": 0.0443,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISACashDMB2"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "093429d6-826d-4a9f-9935-df69a58a830d",
+                  "Fund": {
+                    "FundId": 275,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  },
+                  "MinimumOperatingBalance": 500,
+                  "VariableInterestRateDetails": {
+                    "DefaultInterestRate": "0.75%",
+                    "RewardInterestRate": "3.68%",
+                    "IntroductoryInterestRate": "0.48%",
+                    "TotalInterestRate": "4.43%",
+                    "DateNextInterestPeriodStart": "2025-11-14T00:00:00.000",
+                    "DateCurrentInterestPeriodStart": "2024-11-14T00:00:00.000",
+                    "InterestRateExplainer": [
+                      "You’ll earn 4.43% AER (variable), which includes a bonus rate of 0.48% for the first 12 months after opening your Cash ISA.",
+                      "If your balance falls below the minimum of £500, you’ll earn a lower rate of 0.75% AER (variable) and temporarily lose the bonus rate until your balance increases to £500 or more.",
+                      "If you complete 4 or more withdrawals within each 12-month period after opening your account, you’ll earn the lower rate of 0.75% AER (variable) for the rest of that period, and lose the bonus rate.",
+                      "The number of withdrawals you can complete without impacting your rate resets each year on the date you opened your Cash ISA.",
+                      "Your interest rate and current earnings are recalculated daily, so please allow up to 24 hours for any changes to show. Interest is accrued daily and paid yearly on the date you opened your Cash ISA.",
+                      "For full Terms and Conditions go to Settings > Terms and Fees > Terms and Policies"
+                    ]
+                  },
+                  "WithdrawalDetails": {
+                    "MaximumPermittedWithdrawals": 3,
+                    "WithdrawalsRequestedInPeriod": 0,
+                    "HasUpcomingAccountAnniversary": false
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.1911,
+                  "ContributionsNet": 1575,
+                  "EarningsNet": 6.03,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 5
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:43:01.963",
+                "XSellToDoKey": "CashIsaXSell"
+              },
+              {
+                "Id": 108995,
+                "AssetBoxGlobalId": "3bf3fea4-519b-4390-9685-91821377a3ca",
+                "PlanValue": 160.24,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "4b1bea1f-2fc9-4132-b243-bccab526ea20",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 8,
+                  "GlobalId": "793e5578-feff-47e1-9894-02473af482dc",
+                  "Name": "95 Day Notice",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Savings95",
+                  "FriendlyName": "95 Day Notice",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "4.71% AER",
+                  "InterestRateAmount": 0.0471,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavings95Investec95DN6"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b4852f21-3f18-49a2-8c14-1e80b32ae650",
+                  "Fund": {
+                    "FundId": 46,
+                    "Name": "Investec",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "Notice",
+                    "WithdrawalNoticePeriodDays": 95
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0202,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.24,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 6
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:04:00.743",
+                "XSellToDoKey": "Savings95XSell"
+              },
+              {
+                "Id": 12079,
+                "AssetBoxGlobalId": "f2aa2e5e-9081-4703-87c9-8b3233a754bb",
+                "PlanValue": 18973.79,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 10,
+                  "GlobalId": "f539177c-2a56-4978-a20a-6c61142e93b6",
+                  "Name": "Isa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Isa",
+                  "FriendlyName": "Stocks & Shares ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "1.7% AER",
+                  "InterestRateAmount": 0.017,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367",
+                  "Fund": {
+                    "FundId": 41,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.8784,
+                  "ContributionsNet": 18244.8,
+                  "EarningsNet": 729.99,
+                  "EarningsAsPercentage": 3.9
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 7
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2020-11-02T15:26:28.753"
+              },
+              {
+                "Id": 70721,
+                "AssetBoxGlobalId": "4d036227-0f3e-4aba-9a47-5c9dd37f33a6",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "ad249f93-219f-4870-a168-e5287313493e",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 11,
+                  "GlobalId": "df8c2dbb-4382-4167-8934-ed07c743f66a",
+                  "Name": "Reward Savings",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "SavingsEA",
+                  "FriendlyName": "Reward Savings",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "3.5% AER",
+                  "InterestRateAmount": 0.035,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/cynergybank.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavingsEACynergyEA"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "e13b04f8-fedd-4b37-be5a-eed37d5ac441",
+                  "Fund": {
+                    "FundId": 42,
+                    "Name": "Cynergy Bank",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/cynergybank.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "EasyAccess"
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": true,
+                    "IsHidden": false,
+                    "Sequence": 8
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2022-10-21T09:48:25.970",
+                "XSellToDoKey": "RewardSaverXSell"
+              },
+              {
+                "Id": 108994,
+                "AssetBoxGlobalId": "786e67f3-ac33-47db-8c3a-182dfc9e1bae",
+                "PlanValue": 160.12,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "1605b430-e500-4565-9cab-5ca2d064b8fc",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 12,
+                  "GlobalId": "cb29be21-2c42-42e2-a6bf-f4f64eced2f0",
+                  "Name": "Simple Saver",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "SavingsEA",
+                  "FriendlyName": "Simple Saver",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.5% AER",
+                  "InterestRateAmount": 0.025,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavingsEADMBSSRREA"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "c7905d7c-feef-4d66-9ffa-ad04c4b9f605",
+                  "Fund": {
+                    "FundId": 197,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  },
+                  "SavingsAccount": {
+                    "Type": "EasyAccess"
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0108,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.12,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 9
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:03:13.043",
+                "XSellToDoKey": "SimpleSaverXSell"
+              },
+              {
+                "Id": 38137,
+                "AssetBoxGlobalId": "7c2557e8-8fa0-4de4-9749-176efc72f92d",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 14,
+                  "GlobalId": "1fd060c1-b9cb-4579-8b3d-1374c023d229",
+                  "Name": "Gia Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Gia",
+                  "FriendlyName": "General Investment Account",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 0,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "0.1% AER",
+                  "InterestRateAmount": 0.001,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentGIAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee",
+                  "Fund": {
+                    "FundId": 57,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 10
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": true,
+                "State": "None",
+                "DateCreated": "2021-09-22T09:31:36.820"
+              },
+              {
+                "Id": 108996,
+                "AssetBoxGlobalId": "87d0e658-64c8-4dc1-8129-0d723e1917e0",
+                "PlanValue": 160.14,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": true,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "edc87128-7c4d-4b4a-b5f3-9af698f2e7a7",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 15,
+                  "GlobalId": "29bd0723-467b-4e2c-95f4-480204d48989",
+                  "Name": "32 Day Notice",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Savings32",
+                  "FriendlyName": "32 Day Notice",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.75% AER",
+                  "InterestRateAmount": 0.0275,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavings32Investec32DN"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdebc0f-7053-44c0-a0af-a3fd8e5e366e",
+                  "Fund": {
+                    "FundId": 73,
+                    "Name": "Investec",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "Notice",
+                    "WithdrawalNoticePeriodDays": 32
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0119,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.14,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 11
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:04:29.783",
+                "XSellToDoKey": "Savings32XSell"
+              },
+              {
+                "Id": 66436,
+                "AssetBoxGlobalId": "a5b008a1-c854-4cf0-8137-13379a79d45d",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "167aa85d-81e5-400a-8c76-e959f897722d",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 16,
+                  "GlobalId": "481a24d4-dc33-4778-acf7-711fe7264993",
+                  "Name": "Lisa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Lisa",
+                  "FriendlyName": "Lifetime ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 4000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "0.1% AER",
+                  "InterestRateAmount": 0.001,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentLISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199",
+                  "Fund": {
+                    "FundId": 104,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 12
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": true,
+                "State": "None",
+                "DateCreated": "2022-07-28T15:24:04.423"
+              },
+              {
+                "Id": 108990,
+                "AssetBoxGlobalId": "89cd3d2f-4365-45c1-bce5-9e25f94396dc",
+                "PlanValue": 29.75,
+                "TotalCollection": 10,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 10,
+                "SubscriptionAmount": 10,
+                "TotalWeeklySubscriptionAmount": 10,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "596989f1-f302-4298-9a91-316445325fe5",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 18,
+                  "GlobalId": "d5bc9387-45d8-48c8-b7cc-7ca8f91e7c5c",
+                  "Name": "JISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/JuniorIsaIcon.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/JuniorIsaIcon.png",
+                  "CategoryType": "Investment",
+                  "Type": "Jisa",
+                  "FriendlyName": "Child's Junior ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 9000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentJISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 30,
+                  "EarningsNet": -0.25,
+                  "EarningsAsPercentage": -0.83
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 13
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:44:54.513",
+                "XSellToDoKey": "JuniorIsaXSell"
+              },
+              {
+                "Id": 108991,
+                "AssetBoxGlobalId": "58301e57-ee2c-4e6a-becd-e1b27646491c",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "596989f1-f302-4298-9a91-316445325fe5",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 19,
+                  "GlobalId": "8eec778b-1f12-4ade-9548-18b181a53ec9",
+                  "Name": "Jisa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Jisa",
+                  "FriendlyName": "Junior ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 9000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.1% AER",
+                  "InterestRateAmount": 0.021,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentJISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d",
+                  "Fund": {
+                    "FundId": 151,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 14
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:44:54.513"
+              }
+            ],
+            "Accounts": [
+              {
+                "Type": "Isa",
+                "Name": "Stocks & Shares ISA",
+                "DeepLinkIdentifier": "Isa",
+                "Wrapper": {
+                  "Id": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                  "DefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367",
+                  "TotalValue": 90927.42,
+                  "TotalContributions": 74360.8,
+                  "ContributionsNet": 72842.65,
+                  "EarningsNet": 18084.77,
+                  "EarningsAsPercentage": 24.8,
+                  "MaximumWithdrawal": 17974.67,
+                  "Type": "Isa",
+                  "Returns": {
+                    "Simple": 24.8,
+                    "Lifetime": 98.36,
+                    "Annualised": 16.086
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "investments_initial",
+                  "EndStage": "investments_initial",
+                  "EndStageId": 2
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "Lisa",
+                "Name": "Lifetime ISA",
+                "DeepLinkIdentifier": "Lisa",
+                "Wrapper": {
+                  "Id": "167aa85d-81e5-400a-8c76-e959f897722d",
+                  "DefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199",
+                  "TotalValue": 216.39,
+                  "TotalContributions": 5009.8,
+                  "ContributionsNet": 4676.45,
+                  "EarningsNet": -4460.06,
+                  "EarningsAsPercentage": -95.37,
+                  "MaximumWithdrawal": 0,
+                  "Type": "FundsLisa",
+                  "Returns": {
+                    "Simple": -95.37,
+                    "Lifetime": 0,
+                    "Annualised": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "lisa_first_house",
+                  "EndStage": "lisa_first_house",
+                  "EndStageId": 4
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "CashIsa",
+                "Name": "Cash ISA",
+                "DeepLinkIdentifier": "CashIsa",
+                "Wrapper": {
+                  "Id": "9e56a10f-6c10-4dce-b561-12d4f8f6066e",
+                  "DefinitionGlobalId": "093429d6-826d-4a9f-9935-df69a58a830d",
+                  "TotalValue": 1581.03,
+                  "TotalContributions": 1575,
+                  "ContributionsNet": 1575,
+                  "EarningsNet": 6.03,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 1575,
+                  "Type": "CashIsa",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {},
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "Savings95",
+                "Name": "95 Day Notice",
+                "DeepLinkIdentifier": "Savings95",
+                "Wrapper": {
+                  "Id": "4b1bea1f-2fc9-4132-b243-bccab526ea20",
+                  "DefinitionGlobalId": "b4852f21-3f18-49a2-8c14-1e80b32ae650",
+                  "TotalValue": 160.24,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.24,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 162.18,
+                  "Type": "Cash95",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.13
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Sipp",
+                "Name": "Personal Pension",
+                "DeepLinkIdentifier": "Sipp",
+                "Wrapper": {
+                  "Id": "1f954b40-4bca-458f-bbb8-6eaa5ea858a7",
+                  "DefinitionGlobalId": "9a9d7696-4c46-4a8d-9c41-51d7246914b2",
+                  "TotalValue": 0,
+                  "TotalContributions": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 0,
+                  "Type": "Sipp",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "pension_initial",
+                  "EndStage": "pension_initial",
+                  "EndStageId": 1
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Gia",
+                "Name": "General Investment Account",
+                "DeepLinkIdentifier": "Gia",
+                "Wrapper": {
+                  "Id": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                  "DefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee",
+                  "TotalValue": 6508.86,
+                  "TotalContributions": 4610,
+                  "ContributionsNet": 4610,
+                  "EarningsNet": 1898.86,
+                  "EarningsAsPercentage": 41.19,
+                  "MaximumWithdrawal": 0,
+                  "Type": "Gia",
+                  "Returns": {
+                    "Simple": 41.19,
+                    "Lifetime": 114.63,
+                    "Annualised": 18.0961
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "investments_initial",
+                  "EndStage": "investments_initial",
+                  "EndStageId": 2
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "SavingsEA",
+                "Name": "Reward Savings",
+                "DeepLinkIdentifier": "RewardSavings",
+                "Wrapper": {
+                  "Id": "ad249f93-219f-4870-a168-e5287313493e",
+                  "DefinitionGlobalId": "e13b04f8-fedd-4b37-be5a-eed37d5ac441",
+                  "TotalValue": 0,
+                  "TotalContributions": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 0,
+                  "Type": "CashEasyAccess",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "SavingsEA",
+                "Name": "Simple Saver",
+                "DeepLinkIdentifier": "SimpleSaver",
+                "Wrapper": {
+                  "Id": "1605b430-e500-4565-9cab-5ca2d064b8fc",
+                  "DefinitionGlobalId": "c7905d7c-feef-4d66-9ffa-ad04c4b9f605",
+                  "TotalValue": 160.12,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.12,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 160.13,
+                  "Type": "CashEasyAccess2",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.07
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Savings32",
+                "Name": "32 Day Notice",
+                "DeepLinkIdentifier": "Savings32",
+                "Wrapper": {
+                  "Id": "edc87128-7c4d-4b4a-b5f3-9af698f2e7a7",
+                  "DefinitionGlobalId": "ecdebc0f-7053-44c0-a0af-a3fd8e5e366e",
+                  "TotalValue": 160.14,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.14,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 160.53,
+                  "Type": "Cash32",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.08
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Jisa",
+                "Name": "Child's Junior ISA",
+                "DeepLinkIdentifier": "Jisa",
+                "Wrapper": {
+                  "Id": "596989f1-f302-4298-9a91-316445325fe5",
+                  "DefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d",
+                  "TotalValue": 29.75,
+                  "TotalContributions": 30,
+                  "ContributionsNet": 30,
+                  "EarningsNet": -0.25,
+                  "EarningsAsPercentage": -0.83,
+                  "MaximumWithdrawal": 0,
+                  "Type": "JuniorIsa",
+                  "Returns": {
+                    "Simple": -0.83,
+                    "Lifetime": -1.24
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "jisa_initial",
+                  "EndStage": "jisa_initial",
+                  "EndStageId": 8
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              }
+            ]
+          },
+          "responseTime": 1599
+        },
+        "status": "completed",
+        "error": null,
+        "assertionResults": [
+          {
+            "uid": "RefjW6OrHsz7sp8VgJCYb",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [
+          {
+            "description": "Verify RewardSavings plan value is zero",
+            "status": "pass",
+            "uid": "jU3nQ9ugOcrM8Dd3QucCw"
+          }
+        ],
+        "runtime": 1.599,
+        "suitename": "GetOpenedProducts"
+      }
+    ]
+  },
+  {
+    "iterationIndex": 1,
+    "summary": {
+      "totalRequests": 2,
+      "passedRequests": 2,
+      "failedRequests": 0,
+      "errorRequests": 0,
+      "totalAssertions": 3,
+      "passedAssertions": 3,
+      "failedAssertions": 0,
+      "totalTests": 2,
+      "passedTests": 2,
+      "failedTests": 0
+    },
+    "results": [
+      {
+        "iterationIndex": 1,
+        "test": {
+          "filename": "AppLoginViaEmail.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "https://api-test02.moneyboxapp.com/users/v2/login",
+          "headers": {
+            "appid": "3a97b932a9d449c981b595",
+            "apiversion": "3.0.0",
+            "appversion": "11.1.0",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"Email\": \"test+r1@moneyboxapp.com\",\n  \"Password\": \"P455word12\",\n  \"Idfa\": \"0364caf7-bf70-4e51-b24c-8bd162e05589\",\n  \"DeviceIdentifier\": \"SM-G955F\",\n  \"UniqueDeviceIdentifier\": \"24fa9c58482f4e88\"\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "date": "Sun, 22 Dec 2024 17:16:30 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "content-length": "504",
+            "connection": "keep-alive",
+            "cache-control": "no-store, must-revalidate, no-cache, max-age=-1",
+            "pragma": "no-cache",
+            "expires": "Sun, 22 Dec 2024 17:16:28 GMT",
+            "vary": "Accept-Encoding",
+            "access-control-allow-methods": "GET,POST,PUT,DELETE,OPTIONS",
+            "cf-cache-status": "DYNAMIC",
+            "server": "cloudflare",
+            "cf-ray": "8f61c28c490db351-PRG",
+            "request-duration": 702
+          },
+          "data": {
+            "User": {
+              "UserId": "4533fa68-26ad-43b8-98d6-525bc5a25f49",
+              "UserType": "Investor",
+              "HasVerifiedEmail": true,
+              "IsPinSet": true,
+              "MoneyboxRegistrationStatus": "IsComplete",
+              "Email": "test+r1@moneyboxapp.com",
+              "RestrictedDevice": false,
+              "EmailTwoFactorEnabled": false,
+              "Cohort": 6
+            },
+            "Session": {
+              "BearerToken": "MZMTxMpjwJVEUedvSNfFfjI/rAs8z2Oy+3gi7euHHQc=",
+              "ExternalSessionId": "571b0894-26e9-4ded-af44-453561203f2e",
+              "SessionExternalId": "571b0894-26e9-4ded-af44-453561203f2e",
+              "ExpiryInSeconds": 0,
+              "Profiles": [
+                {
+                  "UserId": "4533fa68-26ad-43b8-98d6-525bc5a25f49",
+                  "ProfileType": "Personal",
+                  "Name": "Name"
+                }
+              ]
+            },
+            "Incentives": {}
+          },
+          "responseTime": 702
+        },
+        "status": "completed",
+        "error": null,
+        "assertionResults": [
+          {
+            "uid": "cJIltpi_Glz4PWiLBunMH",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          },
+          {
+            "uid": "SAaMqu72ByxEKEu-JiY0r",
+            "lhsExpr": "res.body.User.MoneyboxRegistrationStatus",
+            "rhsExpr": "eq IsComplete",
+            "rhsOperand": "IsComplete",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [
+          {
+            "description": "Verify user is Personal Investor",
+            "status": "pass",
+            "uid": "QWh64PmOvZTO1nHVyIrQh"
+          }
+        ],
+        "runtime": 0.702,
+        "suitename": "AppLoginViaEmail"
+      },
+      {
+        "iterationIndex": 1,
+        "test": {
+          "filename": "GetOpenedProducts.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "https://api-test02.moneyboxapp.com/investorproducts",
+          "headers": {
+            "appid": "3a97b932a9d449c981b595",
+            "apiversion": "3.0.0",
+            "appversion": "11.1.0",
+            "Authorization": "Bearer MZMTxMpjwJVEUedvSNfFfjI/rAs8z2Oy+3gi7euHHQc="
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "date": "Sun, 22 Dec 2024 17:16:31 GMT",
+            "content-type": "application/json; charset=utf-8",
+            "content-length": "8531",
+            "connection": "keep-alive",
+            "cache-control": "no-store, must-revalidate, no-cache, max-age=-1",
+            "pragma": "no-cache",
+            "expires": "Sun, 22 Dec 2024 17:16:30 GMT",
+            "vary": "Accept-Encoding",
+            "access-control-allow-methods": "GET,POST,PUT,DELETE,OPTIONS",
+            "cf-cache-status": "DYNAMIC",
+            "server": "cloudflare",
+            "cf-ray": "8f61c2919847b351-PRG",
+            "request-duration": 1395
+          },
+          "data": {
+            "MoneyboxEndOfTaxYear": "2025-04-02T12:00:00.000",
+            "TotalPlanValue": 99743.95,
+            "TotalEarnings": 15529.85,
+            "TotalContributionsNet": 84214.1,
+            "TotalMoneybox": 295,
+            "TotalCollection": 295,
+            "CollectionDayMessage": "3 days until collection",
+            "TotalEarningsAsPercentage": 18.44,
+            "ProductResponses": [
+              {
+                "Id": 1778,
+                "AssetBoxGlobalId": "70d28ea0-0bef-45e2-9783-3715f88571a2",
+                "PlanValue": 71953.63,
+                "TotalCollection": 150,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 150,
+                "SubscriptionAmount": 150,
+                "TotalWeeklySubscriptionAmount": 150,
+                "TotalFees": 863.6,
+                "IsSelected": false,
+                "IsFavourite": true,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 1,
+                  "GlobalId": "d140d99d-b759-46cb-84af-9fbd98dc517f",
+                  "Name": "ISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/IsaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/IsaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Isa",
+                  "FriendlyName": "Stocks & Shares ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 54597.85,
+                  "EarningsNet": 17354.78,
+                  "EarningsAsPercentage": 31.79
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 1
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-05-10T11:13:48.080",
+                "XSellToDoKey": "IsaXSell"
+              },
+              {
+                "Id": 2889,
+                "AssetBoxGlobalId": "84569ac0-d5e5-446d-8b46-66c63a196b5e",
+                "PlanValue": 6508.86,
+                "TotalCollection": 10,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 10,
+                "SubscriptionAmount": 10,
+                "TotalWeeklySubscriptionAmount": 10,
+                "TotalFees": 64.27,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 2,
+                  "GlobalId": "14bffb93-26e6-4910-aac7-c7d6d29e9df9",
+                  "Name": "GIA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/GiaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/GiaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Gia",
+                  "FriendlyName": "General Investment Account",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": true,
+                  "ProductHexCode": "#546270",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentGIAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 4610,
+                  "EarningsNet": 1898.86,
+                  "EarningsAsPercentage": 41.19
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 2
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-07-05T15:30:55.197",
+                "XSellToDoKey": "GiaXSell"
+              },
+              {
+                "Id": 1779,
+                "AssetBoxGlobalId": "55f35b24-4617-45d9-ae70-9fef7cf4acdf",
+                "PlanValue": 216.39,
+                "TotalCollection": 40,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 40,
+                "SubscriptionAmount": 40,
+                "TotalWeeklySubscriptionAmount": 40,
+                "TotalFees": 2.74,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "167aa85d-81e5-400a-8c76-e959f897722d",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Lisa": {
+                    "MaximumBonus": 1000
+                  },
+                  "Id": 4,
+                  "GlobalId": "2d19a88b-5241-40f9-a48b-e057121e3e1f",
+                  "Name": "LISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/LisaIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/LisaIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Lisa",
+                  "FriendlyName": "Lifetime ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": true,
+                  "ProductHexCode": "#49bfbd",
+                  "AnnualLimit": 4000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentLISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 4676.45,
+                  "EarningsNet": -4460.06,
+                  "EarningsAsPercentage": -95.37
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 3
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2019-05-10T13:19:38.097",
+                "XSellToDoKey": "LisaXSell"
+              },
+              {
+                "Id": 2847,
+                "AssetBoxGlobalId": "b286d38e-cee6-4f86-8f32-b551a6a20e68",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "1f954b40-4bca-458f-bbb8-6eaa5ea858a7",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 5,
+                  "GlobalId": "f56ad5dd-fedf-4def-b7b1-64569ccb9815",
+                  "Name": "SIPP",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/PensionIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/PensionIconRebrand.png",
+                  "CategoryType": "Investment",
+                  "Type": "Sipp",
+                  "FriendlyName": "Personal Pension",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#00a8d3",
+                  "AnnualLimit": 144000,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentPensionStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "9a9d7696-4c46-4a8d-9c41-51d7246914b2"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 4
+                  }
+                },
+                "Contributions": {
+                  "IsAvailable": true,
+                  "Status": "Disabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "InProgress",
+                "DateCreated": "2019-07-05T14:07:51.657",
+                "XSellToDoKey": "SippXSell"
+              },
+              {
+                "Id": 108989,
+                "AssetBoxGlobalId": "f6a0a6cc-2330-4bbb-b0c3-0ecd83fb54da",
+                "PlanValue": 1581.03,
+                "TotalCollection": 25,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 25,
+                "SubscriptionAmount": 25,
+                "TotalWeeklySubscriptionAmount": 25,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "9e56a10f-6c10-4dce-b561-12d4f8f6066e",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 20,
+                  "GlobalId": "8fb1be29-12e8-4e14-ad17-1409e878b12c",
+                  "Name": "Cash ISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/cashISA.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/cashISA.png",
+                  "CategoryType": "Cash",
+                  "Type": "CashIsa",
+                  "FriendlyName": "Cash ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "4.43% AER",
+                  "InterestRateAmount": 0.0443,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISACashDMB2"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "093429d6-826d-4a9f-9935-df69a58a830d",
+                  "Fund": {
+                    "FundId": 275,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  },
+                  "MinimumOperatingBalance": 500,
+                  "VariableInterestRateDetails": {
+                    "DefaultInterestRate": "0.75%",
+                    "RewardInterestRate": "3.68%",
+                    "IntroductoryInterestRate": "0.48%",
+                    "TotalInterestRate": "4.43%",
+                    "DateNextInterestPeriodStart": "2025-11-14T00:00:00.000",
+                    "DateCurrentInterestPeriodStart": "2024-11-14T00:00:00.000",
+                    "InterestRateExplainer": [
+                      "You’ll earn 4.43% AER (variable), which includes a bonus rate of 0.48% for the first 12 months after opening your Cash ISA.",
+                      "If your balance falls below the minimum of £500, you’ll earn a lower rate of 0.75% AER (variable) and temporarily lose the bonus rate until your balance increases to £500 or more.",
+                      "If you complete 4 or more withdrawals within each 12-month period after opening your account, you’ll earn the lower rate of 0.75% AER (variable) for the rest of that period, and lose the bonus rate.",
+                      "The number of withdrawals you can complete without impacting your rate resets each year on the date you opened your Cash ISA.",
+                      "Your interest rate and current earnings are recalculated daily, so please allow up to 24 hours for any changes to show. Interest is accrued daily and paid yearly on the date you opened your Cash ISA.",
+                      "For full Terms and Conditions go to Settings > Terms and Fees > Terms and Policies"
+                    ]
+                  },
+                  "WithdrawalDetails": {
+                    "MaximumPermittedWithdrawals": 3,
+                    "WithdrawalsRequestedInPeriod": 0,
+                    "HasUpcomingAccountAnniversary": false
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.1911,
+                  "ContributionsNet": 1575,
+                  "EarningsNet": 6.03,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 5
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:43:01.963",
+                "XSellToDoKey": "CashIsaXSell"
+              },
+              {
+                "Id": 108995,
+                "AssetBoxGlobalId": "3bf3fea4-519b-4390-9685-91821377a3ca",
+                "PlanValue": 160.24,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "4b1bea1f-2fc9-4132-b243-bccab526ea20",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 8,
+                  "GlobalId": "793e5578-feff-47e1-9894-02473af482dc",
+                  "Name": "95 Day Notice",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Savings95",
+                  "FriendlyName": "95 Day Notice",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "4.71% AER",
+                  "InterestRateAmount": 0.0471,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavings95Investec95DN6"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b4852f21-3f18-49a2-8c14-1e80b32ae650",
+                  "Fund": {
+                    "FundId": 46,
+                    "Name": "Investec",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "Notice",
+                    "WithdrawalNoticePeriodDays": 95
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0202,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.24,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 6
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:04:00.743",
+                "XSellToDoKey": "Savings95XSell"
+              },
+              {
+                "Id": 12079,
+                "AssetBoxGlobalId": "f2aa2e5e-9081-4703-87c9-8b3233a754bb",
+                "PlanValue": 18973.79,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 10,
+                  "GlobalId": "f539177c-2a56-4978-a20a-6c61142e93b6",
+                  "Name": "Isa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Isa",
+                  "FriendlyName": "Stocks & Shares ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 20000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "1.7% AER",
+                  "InterestRateAmount": 0.017,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367",
+                  "Fund": {
+                    "FundId": 41,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.8784,
+                  "ContributionsNet": 18244.8,
+                  "EarningsNet": 729.99,
+                  "EarningsAsPercentage": 3.9
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 7
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2020-11-02T15:26:28.753"
+              },
+              {
+                "Id": 70721,
+                "AssetBoxGlobalId": "4d036227-0f3e-4aba-9a47-5c9dd37f33a6",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "ad249f93-219f-4870-a168-e5287313493e",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 11,
+                  "GlobalId": "df8c2dbb-4382-4167-8934-ed07c743f66a",
+                  "Name": "Reward Savings",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "SavingsEA",
+                  "FriendlyName": "Reward Savings",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "3.5% AER",
+                  "InterestRateAmount": 0.035,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/cynergybank.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavingsEACynergyEA"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "e13b04f8-fedd-4b37-be5a-eed37d5ac441",
+                  "Fund": {
+                    "FundId": 42,
+                    "Name": "Cynergy Bank",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/cynergybank.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "EasyAccess"
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": true,
+                    "IsHidden": false,
+                    "Sequence": 8
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2022-10-21T09:48:25.970",
+                "XSellToDoKey": "RewardSaverXSell"
+              },
+              {
+                "Id": 108994,
+                "AssetBoxGlobalId": "786e67f3-ac33-47db-8c3a-182dfc9e1bae",
+                "PlanValue": 160.12,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "1605b430-e500-4565-9cab-5ca2d064b8fc",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 12,
+                  "GlobalId": "cb29be21-2c42-42e2-a6bf-f4f64eced2f0",
+                  "Name": "Simple Saver",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "SavingsEA",
+                  "FriendlyName": "Simple Saver",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.5% AER",
+                  "InterestRateAmount": 0.025,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavingsEADMBSSRREA"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "c7905d7c-feef-4d66-9ffa-ad04c4b9f605",
+                  "Fund": {
+                    "FundId": 197,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  },
+                  "SavingsAccount": {
+                    "Type": "EasyAccess"
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0108,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.12,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 9
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:03:13.043",
+                "XSellToDoKey": "SimpleSaverXSell"
+              },
+              {
+                "Id": 38137,
+                "AssetBoxGlobalId": "7c2557e8-8fa0-4de4-9749-176efc72f92d",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 14,
+                  "GlobalId": "1fd060c1-b9cb-4579-8b3d-1374c023d229",
+                  "Name": "Gia Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Gia",
+                  "FriendlyName": "General Investment Account",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 0,
+                  "DepositLimit": 85000,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "0.1% AER",
+                  "InterestRateAmount": 0.001,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentGIAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee",
+                  "Fund": {
+                    "FundId": 57,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 10
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": true,
+                "State": "None",
+                "DateCreated": "2021-09-22T09:31:36.820"
+              },
+              {
+                "Id": 108996,
+                "AssetBoxGlobalId": "87d0e658-64c8-4dc1-8129-0d723e1917e0",
+                "PlanValue": 160.14,
+                "TotalCollection": 20,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 20,
+                "SubscriptionAmount": 20,
+                "TotalWeeklySubscriptionAmount": 20,
+                "TotalFees": 0,
+                "IsSelected": true,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "edc87128-7c4d-4b4a-b5f3-9af698f2e7a7",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 15,
+                  "GlobalId": "29bd0723-467b-4e2c-95f4-480204d48989",
+                  "Name": "32 Day Notice",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/SavingsAccountsIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Savings32",
+                  "FriendlyName": "32 Day Notice",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#583d7c",
+                  "AnnualLimit": 0,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.75% AER",
+                  "InterestRateAmount": 0.0275,
+                  "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentSavings32Investec32DN"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "ecdebc0f-7053-44c0-a0af-a3fd8e5e366e",
+                  "Fund": {
+                    "FundId": 73,
+                    "Name": "Investec",
+                    "LogoUrl": "https://assets.moneyboxapp.com/images/app-assets/InvestecIconRebrand.png",
+                    "IsFundDMB": false
+                  },
+                  "SavingsAccount": {
+                    "Type": "Notice",
+                    "WithdrawalNoticePeriodDays": 32
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0.0119,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.14,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 11
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T12:04:29.783",
+                "XSellToDoKey": "Savings32XSell"
+              },
+              {
+                "Id": 66436,
+                "AssetBoxGlobalId": "a5b008a1-c854-4cf0-8137-13379a79d45d",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "",
+                "WrapperId": "167aa85d-81e5-400a-8c76-e959f897722d",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 16,
+                  "GlobalId": "481a24d4-dc33-4778-acf7-711fe7264993",
+                  "Name": "Lisa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Lisa",
+                  "FriendlyName": "Lifetime ISA",
+                  "CanWithdraw": true,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 4000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0.25,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "0.1% AER",
+                  "InterestRateAmount": 0.001,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentLISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199",
+                  "Fund": {
+                    "FundId": 104,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 12
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": true,
+                "State": "None",
+                "DateCreated": "2022-07-28T15:24:04.423"
+              },
+              {
+                "Id": 108990,
+                "AssetBoxGlobalId": "89cd3d2f-4365-45c1-bce5-9e25f94396dc",
+                "PlanValue": 29.75,
+                "TotalCollection": 10,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 10,
+                "SubscriptionAmount": 10,
+                "TotalWeeklySubscriptionAmount": 10,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "596989f1-f302-4298-9a91-316445325fe5",
+                "IsCashBox": false,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Investments"
+                },
+                "Product": {
+                  "Id": 18,
+                  "GlobalId": "d5bc9387-45d8-48c8-b7cc-7ca8f91e7c5c",
+                  "Name": "JISA",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/JuniorIsaIcon.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/JuniorIsaIcon.png",
+                  "CategoryType": "Investment",
+                  "Type": "Jisa",
+                  "FriendlyName": "Child's Junior ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "ProductHexCode": "#c5d561",
+                  "AnnualLimit": 9000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentJISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d"
+                },
+                "InvestorAccount": {
+                  "ContributionsNet": 30,
+                  "EarningsNet": -0.25,
+                  "EarningsAsPercentage": -0.83
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 13
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:44:54.513",
+                "XSellToDoKey": "JuniorIsaXSell"
+              },
+              {
+                "Id": 108991,
+                "AssetBoxGlobalId": "58301e57-ee2c-4e6a-becd-e1b27646491c",
+                "PlanValue": 0,
+                "TotalCollection": 0,
+                "FixedAllocationsTotal": 0,
+                "Moneybox": 0,
+                "SubscriptionAmount": 0,
+                "TotalWeeklySubscriptionAmount": 0,
+                "TotalFees": 0,
+                "IsSelected": false,
+                "IsFavourite": false,
+                "CollectionDayMessage": "3 days until collection",
+                "WrapperId": "596989f1-f302-4298-9a91-316445325fe5",
+                "IsCashBox": true,
+                "PendingInstantBankTransferAmount": 0,
+                "AssetBox": {
+                  "Title": "Cash"
+                },
+                "Product": {
+                  "Id": 19,
+                  "GlobalId": "8eec778b-1f12-4ade-9548-18b181a53ec9",
+                  "Name": "Jisa Cash Box",
+                  "SvgImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.svg",
+                  "PngImageUrl": "https://assets.moneyboxapp.com/images/app-assets/CashBoxIconRebrand.png",
+                  "CategoryType": "Cash",
+                  "Type": "Jisa",
+                  "FriendlyName": "Junior ISA",
+                  "CanWithdraw": false,
+                  "CanProportionatelySelldown": false,
+                  "AnnualLimit": 9000,
+                  "DepositLimit": 0,
+                  "BonusMultiplier": 0,
+                  "MinimumWeeklyDeposit": 2,
+                  "MaximumWeeklyDeposit": 400,
+                  "InterestRate": "2.1% AER",
+                  "InterestRateAmount": 0.021,
+                  "Documents": {
+                    "KeyFeaturesUrl": "https://api-test02.moneyboxapp.com/docs/KeyFeaturesDocumentJISAStocks"
+                  },
+                  "State": "None",
+                  "WrapperDefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d",
+                  "Fund": {
+                    "FundId": 151,
+                    "Name": "Moneybox",
+                    "IsFundDMB": true
+                  }
+                },
+                "InvestorAccount": {
+                  "TodaysInterest": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0
+                },
+                "Personalisation": {
+                  "QuickAddDeposit": {
+                    "Amount": 100
+                  },
+                  "HideAccounts": {
+                    "Enabled": false,
+                    "IsHidden": false,
+                    "Sequence": 14
+                  }
+                },
+                "Contributions": {
+                  "Status": "Enabled"
+                },
+                "MoneyboxCircle": {
+                  "State": "None"
+                },
+                "IsSwitchVisible": false,
+                "State": "None",
+                "DateCreated": "2024-11-14T11:44:54.513"
+              }
+            ],
+            "Accounts": [
+              {
+                "Type": "Isa",
+                "Name": "Stocks & Shares ISA",
+                "DeepLinkIdentifier": "Isa",
+                "Wrapper": {
+                  "Id": "dab54f94-7c21-4bf7-8360-cf0537241435",
+                  "DefinitionGlobalId": "ecdf7923-4f30-4e9d-84bc-1e71d3a53367",
+                  "TotalValue": 90927.42,
+                  "TotalContributions": 74360.8,
+                  "ContributionsNet": 72842.65,
+                  "EarningsNet": 18084.77,
+                  "EarningsAsPercentage": 24.8,
+                  "MaximumWithdrawal": 17974.67,
+                  "Type": "Isa",
+                  "Returns": {
+                    "Simple": 24.8,
+                    "Lifetime": 98.36,
+                    "Annualised": 16.086
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "investments_initial",
+                  "EndStage": "investments_initial",
+                  "EndStageId": 2
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "Lisa",
+                "Name": "Lifetime ISA",
+                "DeepLinkIdentifier": "Lisa",
+                "Wrapper": {
+                  "Id": "167aa85d-81e5-400a-8c76-e959f897722d",
+                  "DefinitionGlobalId": "7b98e517-7a1f-4526-8266-b8ce0b9f8199",
+                  "TotalValue": 216.39,
+                  "TotalContributions": 5009.8,
+                  "ContributionsNet": 4676.45,
+                  "EarningsNet": -4460.06,
+                  "EarningsAsPercentage": -95.37,
+                  "MaximumWithdrawal": 0,
+                  "Type": "FundsLisa",
+                  "Returns": {
+                    "Simple": -95.37,
+                    "Lifetime": 0,
+                    "Annualised": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "lisa_first_house",
+                  "EndStage": "lisa_first_house",
+                  "EndStageId": 4
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "CashIsa",
+                "Name": "Cash ISA",
+                "DeepLinkIdentifier": "CashIsa",
+                "Wrapper": {
+                  "Id": "9e56a10f-6c10-4dce-b561-12d4f8f6066e",
+                  "DefinitionGlobalId": "093429d6-826d-4a9f-9935-df69a58a830d",
+                  "TotalValue": 1581.03,
+                  "TotalContributions": 1575,
+                  "ContributionsNet": 1575,
+                  "EarningsNet": 6.03,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 1575,
+                  "Type": "CashIsa",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {},
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false,
+                "IncludeInIsaOverviewGroup": true
+              },
+              {
+                "Type": "Savings95",
+                "Name": "95 Day Notice",
+                "DeepLinkIdentifier": "Savings95",
+                "Wrapper": {
+                  "Id": "4b1bea1f-2fc9-4132-b243-bccab526ea20",
+                  "DefinitionGlobalId": "b4852f21-3f18-49a2-8c14-1e80b32ae650",
+                  "TotalValue": 160.24,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.24,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 162.18,
+                  "Type": "Cash95",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.13
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Sipp",
+                "Name": "Personal Pension",
+                "DeepLinkIdentifier": "Sipp",
+                "Wrapper": {
+                  "Id": "1f954b40-4bca-458f-bbb8-6eaa5ea858a7",
+                  "DefinitionGlobalId": "9a9d7696-4c46-4a8d-9c41-51d7246914b2",
+                  "TotalValue": 0,
+                  "TotalContributions": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 0,
+                  "Type": "Sipp",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "pension_initial",
+                  "EndStage": "pension_initial",
+                  "EndStageId": 1
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Gia",
+                "Name": "General Investment Account",
+                "DeepLinkIdentifier": "Gia",
+                "Wrapper": {
+                  "Id": "e7c6af6f-97db-41e2-8e8b-41d92fbab6e6",
+                  "DefinitionGlobalId": "b1a032bd-bbab-4e1e-b059-4af89699abee",
+                  "TotalValue": 6508.86,
+                  "TotalContributions": 4610,
+                  "ContributionsNet": 4610,
+                  "EarningsNet": 1898.86,
+                  "EarningsAsPercentage": 41.19,
+                  "MaximumWithdrawal": 0,
+                  "Type": "Gia",
+                  "Returns": {
+                    "Simple": 41.19,
+                    "Lifetime": 114.63,
+                    "Annualised": 18.0961
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "investments_initial",
+                  "EndStage": "investments_initial",
+                  "EndStageId": 2
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "SavingsEA",
+                "Name": "Reward Savings",
+                "DeepLinkIdentifier": "RewardSavings",
+                "Wrapper": {
+                  "Id": "ad249f93-219f-4870-a168-e5287313493e",
+                  "DefinitionGlobalId": "e13b04f8-fedd-4b37-be5a-eed37d5ac441",
+                  "TotalValue": 0,
+                  "TotalContributions": 0,
+                  "ContributionsNet": 0,
+                  "EarningsNet": 0,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 0,
+                  "Type": "CashEasyAccess",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "SavingsEA",
+                "Name": "Simple Saver",
+                "DeepLinkIdentifier": "SimpleSaver",
+                "Wrapper": {
+                  "Id": "1605b430-e500-4565-9cab-5ca2d064b8fc",
+                  "DefinitionGlobalId": "c7905d7c-feef-4d66-9ffa-ad04c4b9f605",
+                  "TotalValue": 160.12,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.12,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 160.13,
+                  "Type": "CashEasyAccess2",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.07
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Savings32",
+                "Name": "32 Day Notice",
+                "DeepLinkIdentifier": "Savings32",
+                "Wrapper": {
+                  "Id": "edc87128-7c4d-4b4a-b5f3-9af698f2e7a7",
+                  "DefinitionGlobalId": "ecdebc0f-7053-44c0-a0af-a3fd8e5e366e",
+                  "TotalValue": 160.14,
+                  "TotalContributions": 160,
+                  "ContributionsNet": 160,
+                  "EarningsNet": 0.14,
+                  "EarningsAsPercentage": 0,
+                  "MaximumWithdrawal": 160.53,
+                  "Type": "Cash32",
+                  "Returns": {
+                    "Simple": 0,
+                    "Lifetime": 0.08
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "savings_initial",
+                  "EndStage": "savings_initial",
+                  "EndStageId": 3
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              },
+              {
+                "Type": "Jisa",
+                "Name": "Child's Junior ISA",
+                "DeepLinkIdentifier": "Jisa",
+                "Wrapper": {
+                  "Id": "596989f1-f302-4298-9a91-316445325fe5",
+                  "DefinitionGlobalId": "7b59e8c3-392f-4e51-b8a5-16268211e30d",
+                  "TotalValue": 29.75,
+                  "TotalContributions": 30,
+                  "ContributionsNet": 30,
+                  "EarningsNet": -0.25,
+                  "EarningsAsPercentage": -0.83,
+                  "MaximumWithdrawal": 0,
+                  "Type": "JuniorIsa",
+                  "Returns": {
+                    "Simple": -0.83,
+                    "Lifetime": -1.24
+                  },
+                  "WrapperDefinition": {}
+                },
+                "Milestone": {
+                  "InitialStage": "jisa_initial",
+                  "EndStage": "jisa_initial",
+                  "EndStageId": 8
+                },
+                "HasCollections": true,
+                "ShowWrapperGroupOverview": false
+              }
+            ]
+          },
+          "responseTime": 1395
+        },
+        "status": "completed",
+        "error": null,
+        "assertionResults": [
+          {
+            "uid": "vY0-dnhUFpJ1vgbw218tu",
+            "lhsExpr": "res.status",
+            "rhsExpr": "eq 200",
+            "rhsOperand": "200",
+            "operator": "eq",
+            "status": "pass"
+          }
+        ],
+        "testResults": [
+          {
+            "description": "Verify RewardSavings plan value is zero",
+            "status": "pass",
+            "uid": "ZeZwgyFGzvGzQRYNWWWbq"
+          }
+        ],
+        "runtime": 1.395,
+        "suitename": "GetOpenedProducts"
+      }
+    ]
+  }
+];
+
+          const darkMode = ref(false);
+          const theme = computed(() => {
+            return darkMode.value ? naive.darkTheme : null;
+          });
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            darkMode.value = true;
+          }
+          // To watch for os theme changes
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+            darkMode.value = event.matches;
+          });
+          return {
+            res,
+            theme,
+            darkMode,
+            darkModeRailStyle: () => ({ background: 'var(--n-rail-color)' })
+          };
+        }
+      };
+      const app = Vue.createApp(App);
+
+      app.component('x-summary', {
+        template: '#summary-component',
+        props: ['res'],
+        setup(props) {
+          const summaryColumns = [
+            {
+              title: 'SUMMARY ITEM',
+              key: 'title'
+            },
+            {
+              title: 'TOTAL',
+              key: 'total'
+            },
+            {
+              title: 'PASSED',
+              key: 'passed'
+            },
+            {
+              title: 'FAILED',
+              key: 'failed'
+            },
+            {
+              title: 'ERROR',
+              key: 'error'
+            }
+          ];
+          const summaryData = computed(() => [
+            {
+              title: 'Requests',
+              total: props.res.summary.totalRequests,
+              passed: props.res.summary.passedRequests,
+              failed: props.res.summary.failedRequests,
+              error: props?.res?.summary?.errorRequests
+            },
+            {
+              title: 'Assertions',
+              total: props.res.summary.totalAssertions,
+              passed: props.res.summary.passedAssertions,
+              failed: props.res.summary.failedAssertions,
+              error: '-'
+            },
+            {
+              title: 'Tests',
+              total: props.res.summary.totalTests,
+              passed: props.res.summary.passedTests,
+              failed: props.res.summary.failedTests,
+              error: '-'
+            }
+          ]);
+          const summaryTotalRequests = computed(() => {
+            return props.res.summary.totalRequests;
+          });
+          const summaryTotalControls = computed(() => {
+            return props.res.summary.totalTests + props.res.summary.totalAssertions;
+          });
+          const summaryFailedControls = computed(
+            () => props?.res?.summary?.failedTests + props?.res?.summary?.failedAssertions
+          );
+          const summaryErrors = computed(() => props?.res?.results?.filter((r) => r.error || r.status === 'error').length) || 0;
+          const totalRunDuration = computed(() => props.res?.results?.reduce((total, test) => test.runtime + total, 0));
+          const iterationIndex = Number(props.res.iterationIndex) + 1;
+          return {
+            summaryColumns,
+            summaryData,
+            summaryTotalControls,
+            summaryTotalRequests,
+            summaryFailedControls,
+            summaryErrors,
+            totalRunDuration,
+            iterationTitle: 'Iteration ' + iterationIndex
+          };
+        }
+      });
+
+      app.component('x-requests', {
+        template: '#requests-component',
+        props: ['res'],
+        setup(props) {
+          const onlyFailed = ref(false);
+          const filteredResults = computed(() => {
+            if (onlyFailed.value) {
+              return props?.res?.results?.filter(
+                (r) =>
+                  r.status === 'error' ||
+                  !!r?.testResults?.find((t) => t.status !== 'pass') ||
+                  !!r?.assertionResults?.find((t) => t.status !== 'pass')
+              );
+            }
+            return props.res.results;
+          });
+          const groupedResults = computed(() => {
+            return filteredResults.value.reduce((groups, curr) => {
+              const path = curr?.suitename?.split('/');
+              const test = path.pop();
+              const name = (path.length || 0) ? path.join('/') : '(root)';
+              if (!groups[name]) {
+                groups[name] = [];
+              }
+              groups[name].push(curr);
+              return groups;
+            }, {});
+          });
+          const iterationIndex = Number(props.res.iterationIndex) + 1;
+          return {
+            onlyFailed,
+            groupedResults,
+            railStyle: ({ checked }) => {
+              const style = {};
+              if (checked) {
+                style.background = '#d03050';
+              }
+              return style;
+            },
+            iterationTitle: 'Iteration ' + iterationIndex
+          };
+        }
+      });
+
+      app.component('x-results-group', {
+        template: '#results-group-component',
+        props: ['group', 'results'],
+        setup(props) {
+          const totalPassed = computed(() => {
+            return props.results.reduce((total, curr) => {
+              return (
+                total +
+                (curr?.testResults?.filter((t) => t.status === 'pass').length || 0) +
+                (curr?.assertionResults?.filter((t) => t.status === 'pass').length || 0)
+              );
+            }, 0);
+          });
+          const total = computed(() => {
+            return props.results.reduce((total, curr) => {
+              return total + (curr?.testResults?.length || 0) + (curr?.assertionResults?.length || 0);
+            }, 0);
+          });
+          const hasError = computed(() => props.results.some((r) => !!r.error || r?.status === 'error'));
+          const hasFailure = computed(() => totalPassed.value !== total.value);
+          return {
+            totalPassed,
+            total,
+            hasFailure,
+            hasError,
+            group: props.group,
+            results: props.results
+          };
+        }
+      });
+
+      app.component('x-result', {
+        template: '#result-component',
+        props: ['group', 'result'],
+        setup(props) {
+          const headerColumns = [
+            {
+              title: 'Header Name',
+              key: 'name',
+              className: 'min-width-150'
+            },
+            {
+              title: 'Header Value',
+              key: 'value'
+            }
+          ];
+          const assertionsColumns = [
+            {
+              title: 'Expression',
+              key: 'lhsExpr'
+            },
+            {
+              title: 'Operator',
+              key: 'operator'
+            },
+            {
+              title: 'Operand',
+              key: 'rhsOperand'
+            },
+            {
+              title: 'Status',
+              key: 'status',
+              className: 'status'
+            },
+            {
+              title: 'Error',
+              key: 'error'
+            }
+          ];
+          const assertionsRowClassName = (row) => {
+            return row.status === 'fail' ? 'error' : 'success';
+          };
+          const testsRowClassName = (row) => {
+            return row.status === 'fail' ? 'error' : 'success';
+          };
+          const testsColumns = [
+            {
+              title: 'Description',
+              key: 'description'
+            },
+            {
+              title: 'Status',
+              key: 'status',
+              className: 'status'
+            },
+            {
+              title: 'Error',
+              key: 'error'
+            }
+          ];
+
+          function mapHeaderToTableData(headers) {
+            if (!headers) {
+              return [];
+            }
+            return Object.keys(headers).map((name) => ({
+              name,
+              value: headers[name]
+            }));
+          }
+          const headerDataRequest = computed(() => {
+            return mapHeaderToTableData(props?.result?.request?.headers);
+          });
+          const headerDataResponse = computed(() => {
+            return mapHeaderToTableData(props?.result?.response?.headers);
+          });
+          const totalPassed = computed(() => {
+            return (
+              (props?.result?.testResults?.filter((t) => t.status === 'pass').length || 0) +
+              (props?.result?.assertionResults?.filter((t) => t.status === 'pass').length || 0)
+            );
+          });
+          const total = computed(() => {
+            return (props?.result?.testResults?.length || 0) + (props?.result?.assertionResults?.length || 0);
+          });
+
+          const hasError = computed(() => !!props?.result?.error || props?.result?.status === 'error');
+          const hasFailure = computed(() => total.value !== totalPassed.value);
+          const suitename = computed(() => props?.result?.suitename?.replace(props.group + '/', ''));
+          const testDuration = computed(() => Math.round(props?.result?.runtime * 1000) + ' ms');
+          const name = computed(() => props?.result?.suitename + props?.result?.runtime);
+          return {
+            headerColumns,
+            headerDataRequest,
+            headerDataResponse,
+            assertionsColumns,
+            assertionsRowClassName,
+            testsRowClassName,
+            totalPassed,
+            total,
+            hasFailure,
+            hasError,
+            testsColumns,
+            result: props.result,
+            suitename,
+            testDuration,
+            name,
+            iterationIndex: props?.result?.iterationIndex
+          };
+        }
+      });
+
+      app.use(naive);
+      app.mount('#app');
+    </script>
+  </body>
+</html>

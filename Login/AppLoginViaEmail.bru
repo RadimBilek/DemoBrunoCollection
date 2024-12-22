@@ -1,0 +1,44 @@
+meta {
+  name: AppLoginViaEmail
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL}}/users/v2/login
+  body: json
+  auth: none
+}
+
+headers {
+  appid: 3a97b932a9d449c981b595
+  apiversion: 3.0.0
+  appversion: {{appversion}}
+}
+
+body:json {
+  {
+    "Email": "test+r1@moneyboxapp.com",
+    "Password": "P455word12",
+    "Idfa": "0364caf7-bf70-4e51-b24c-8bd162e05589",
+    "DeviceIdentifier": "SM-G955F",
+    "UniqueDeviceIdentifier": "24fa9c58482f4e88"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.User.MoneyboxRegistrationStatus: eq IsComplete
+}
+
+tests {
+  const responseBody = res.getBody();
+  
+  test("Verify user is Personal Investor", function () {
+    expect(responseBody.User.UserType).equals("Investor");
+    expect(responseBody.Session.Profiles).to.be.an('array').lengthOf(1);
+    expect(responseBody.Session.Profiles[0].ProfileType).equals("Personal");
+  })
+  
+  bru.setVar("BearerToken", responseBody.Session.BearerToken);
+}
