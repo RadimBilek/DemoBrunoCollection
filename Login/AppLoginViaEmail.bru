@@ -41,4 +41,119 @@ tests {
   })
   
   bru.setVar("BearerToken", responseBody.Session.BearerToken);
+  
+  
+  // Schema validation test
+  const Ajv = require('ajv');
+  
+  const schema = {
+    "type": "object",
+    "properties": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "type": "string"
+          },
+          "UserType": {
+            "type": "string"
+          },
+          "HasVerifiedEmail": {
+            "type": "boolean"
+          },
+          "IsPinSet": {
+            "type": "boolean"
+          },
+          "MoneyboxRegistrationStatus": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "RestrictedDevice": {
+            "type": "boolean"
+          },
+          "EmailTwoFactorEnabled": {
+            "type": "boolean"
+          },
+          "Cohort": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "UserId",
+          "UserType",
+          "HasVerifiedEmail",
+          "IsPinSet",
+          "MoneyboxRegistrationStatus",
+          "Email",
+          "RestrictedDevice",
+          "EmailTwoFactorEnabled",
+          "Cohort"
+        ]
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "BearerToken": {
+            "type": "string"
+          },
+          "ExternalSessionId": {
+            "type": "string"
+          },
+          "SessionExternalId": {
+            "type": "string"
+          },
+          "ExpiryInSeconds": {
+            "type": "integer"
+          },
+          "Profiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "UserId": {
+                  "type": "string"
+                },
+                "ProfileType": {
+                  "type": "string"
+                },
+                "Name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "UserId",
+                "ProfileType",
+                "Name"
+              ]
+            }
+          }
+        },
+        "required": [
+          "BearerToken",
+          "ExternalSessionId",
+          "SessionExternalId",
+          "ExpiryInSeconds",
+          "Profiles"
+        ]
+      },
+      "Incentives": {
+        "type": "object"
+      }
+    },
+    "required": [
+      "User",
+      "Session",
+      "Incentives"
+    ]
+  };
+  
+  const ajv = new Ajv({ allErrors: true }); // Collect all validation errors
+  const validate = ajv.compile(schema);
+  const valid = validate(responseBody);
+  
+  test("Verify the schema is valid", function () {
+    expect(valid, "Schema validation failed. Errors: " + JSON.stringify(validate.errors)).to.be.true;
+  })
 }
